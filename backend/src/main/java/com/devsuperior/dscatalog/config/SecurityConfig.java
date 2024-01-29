@@ -17,7 +17,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
         return http.build();
     }
-
+    /*
     @Bean
     @Profile("test")
     @Order(1)
@@ -26,5 +26,5 @@ public class SecurityConfig {
         http.securityMatcher(PathRequest.toH2Console()).csrf(csrf -> csrf.disable())
                 .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()));
         return http.build();
-    }
+    }*/
 }
