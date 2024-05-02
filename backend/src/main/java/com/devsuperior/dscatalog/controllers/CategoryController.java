@@ -22,15 +22,9 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    /*@GetMapping
+    @GetMapping
     public ResponseEntity<List<CategoryDTO>> findAll() {
         List<CategoryDTO> result = categoryService.findAll();
-        return ResponseEntity.ok(result);
-    }*/
-
-    @GetMapping
-    public ResponseEntity<Page<CategoryDTO>> findAllPaged(Pageable pageable) {
-        Page<CategoryDTO> result = categoryService.findAllPaged(pageable);
         return ResponseEntity.ok(result);
     }
 

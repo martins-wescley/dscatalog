@@ -10,6 +10,7 @@ import jakarta.validation.constraints.Size;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class ProductDTO {
     private Long id;
@@ -52,6 +53,11 @@ public class ProductDTO {
         for (Category cat: entity.getCategories()) {
             categories.add(new CategoryDTO(cat));
         }
+    }
+
+    public ProductDTO(Product entity, Set<Category> categories) {
+        this(entity);
+        categories.forEach(cat -> this.categories.add(new CategoryDTO(cat)));
     }
 
     public Long getId() {
