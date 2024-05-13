@@ -1,7 +1,6 @@
 package com.devsuperior.dscatalog.services;
 
 import com.devsuperior.dscatalog.dto.*;
-import com.devsuperior.dscatalog.entities.Category;
 import com.devsuperior.dscatalog.entities.Role;
 import com.devsuperior.dscatalog.entities.User;
 import com.devsuperior.dscatalog.projections.UserDetailsProjection;
@@ -13,12 +12,10 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -30,12 +27,12 @@ import java.util.List;
 public class UserService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private PasswordEncoder passwordEncoder;
-
     @Autowired
     private RoleRepository roleRepository;
+    @Autowired
+    private AuthService authService;
 
     @Transactional(readOnly = true)
     public List<UserDTO> findAll() {
@@ -53,6 +50,12 @@ public class UserService implements UserDetailsService {
     public UserDTO findById(Long id) {
         User entity = userRepository.findById(id).orElseThrow(()->
                 new ResourceNotFoundException("Entity not found"));
+        return new UserDTO(entity);
+    }
+
+    @Transactional(readOnly = true)
+    public UserDTO findMe() {
+        User entity = authService.authenticated();
         return new UserDTO(entity);
     }
 
